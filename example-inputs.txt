@@ -1,0 +1,84 @@
+EXAMPLE MEDICAL REPORT INPUTS
+==============================
+
+Example 1: Blood Test Report
+------------------------------
+LABORATORY REPORT
+
+Patient: John Doe
+Date: 2024-01-15
+
+Complete Blood Count:
+- Hemoglobin: 14.2 g/dL
+- Red Blood Cells (RBC): 5.1 million/µL
+- White Blood Cells (WBC): 7500 /µL
+- Platelets: 280,000 /µL
+
+Blood Chemistry:
+- Glucose: 95 mg/dL
+- Cholesterol: 185 mg/dL
+
+Blood Pressure: 120/80 mmHg
+
+All values are within normal ranges.
+
+---
+
+Example 2: Report with Abnormal Values
+----------------------------------------
+MEDICAL CHECKUP REPORT
+
+Name: Jane Smith
+Date: 2024-02-20
+
+Laboratory Results:
+
+Blood Sugar: 150 mg/dL
+Hemoglobin: 10.8 g/dL
+RBC: 3.8 million/µL
+WBC: 12000 /µL
+Platelets: 450,000 /µL
+
+Cholesterol Level: 250 mg/dL
+Blood Pressure: 145/95
+
+---
+
+Example 3: Simple Format
+-------------------------
+MEDICAL TEST RESULTS
+
+Glucose: 88
+Hemoglobin: 15.5
+Blood Pressure: 115/75
+Cholesterol: 190
+RBC: 4.8
+WBC: 6500
+Platelets: 320000
+
+---
+
+Example 4: Diabetes Screening
+-------------------------------
+DIABETES SCREENING REPORT
+
+Patient: Test Patient
+Fasting Blood Sugar: 110 mg/dL
+Postprandial Glucose: 180 mg/dL
+Hemoglobin A1C: 6.8%
+
+Complete Blood Count:
+Hemoglobin (HGB): 13.5 g/dL
+RBC Count: 4.9 million/µL
+WBC: 8200 /µL
+Platelets: 295,000 /µL
+
+---
+
+Example 5: Minimal Input (works too)
+-------------------------------------
+Blood test results:
+Glucose 92
+BP 125/80
+Hemoglobin 14.0
+

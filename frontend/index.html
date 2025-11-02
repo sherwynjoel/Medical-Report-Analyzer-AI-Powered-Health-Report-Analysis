@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Report Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏥 Medical Report Analyzer</h1>
+            <p class="subtitle">AI-Powered Health Report Analysis</p>
+        </header>
+
+        <div class="upload-section">
+            <div class="upload-box" id="uploadBox">
+                <div class="upload-icon">📄</div>
+                <h2>Upload Medical Report</h2>
+                <p>Upload PDF or TXT files for AI analysis</p>
+                <input type="file" id="fileInput" accept=".pdf,.txt" hidden>
+                <button class="btn-primary" onclick="document.getElementById('fileInput').click()">
+                    Choose File
+                </button>
+                <p class="file-name" id="fileName"></p>
+            </div>
+
+            <div class="text-input-section">
+                <h3>Or Paste Text Directly</h3>
+                <textarea id="textInput" placeholder="Paste your medical report text here..."></textarea>
+                <button class="btn-secondary" onclick="analyzeText()">Analyze Text</button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Analyzing report with AI...</p>
+        </div>
+
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <div class="risk-indicator" id="riskIndicator">
+                <div class="risk-circle" id="riskCircle">
+                    <span id="riskText">Low Risk</span>
+                </div>
+                <p class="risk-label" id="riskLabel">Overall Health Status</p>
+            </div>
+
+            <div class="summary-card">
+                <h2>📋 Analysis Summary</h2>
+                <p id="summaryText" class="summary-text"></p>
+                <p class="analysis-date" id="analysisDate"></p>
+            </div>
+
+            <div class="findings-section" id="findingsSection">
+                <h2>🔍 Key Findings</h2>
+                <div class="findings-grid" id="findingsGrid"></div>
+            </div>
+
+            <button class="btn-primary" onclick="resetAnalysis()">Analyze Another Report</button>
+        </div>
+
+        <div class="error-message" id="errorMessage" style="display: none;"></div>
+    </div>
+
+    <footer>
+        <p>Powered by AI & DevOps | Medical Report Analyzer</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

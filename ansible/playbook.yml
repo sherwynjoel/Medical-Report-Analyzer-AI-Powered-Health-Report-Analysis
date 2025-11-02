@@ -1,0 +1,157 @@
+---
+# Ansible Playbook for Medical Report Analyzer Deployment
+# This playbook configures Kubernetes and deploys the application
+
+- name: Deploy Medical Report Analyzer to AKS
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  
+  vars:
+    app_name: medical-analyzer
+    namespace: default
+    image_name: "{{ acr_login_server }}/{{ app_name }}:{{ image_tag | default('latest') }}"
+    replicas: 2
+    
+  tasks:
+    - name: Check if kubectl is available
+      command: kubectl version --client
+      register: kubectl_check
+      changed_when: false
+      failed_when: false
+      
+    - name: Fail if kubectl is not installed
+      fail:
+        msg: "kubectl is not installed or not in PATH"
+      when: kubectl_check.rc != 0
+      
+    - name: Check Kubernetes cluster connection
+      command: kubectl cluster-info
+      register: cluster_info
+      changed_when: false
+      
+    - name: Display cluster information
+      debug:
+        msg: "Connected to cluster: {{ cluster_info.stdout }}"
+        
+    - name: Create namespace if it doesn't exist
+      kubernetes.core.k8s:
+        name: "{{ namespace }}"
+        api_version: v1
+        kind: Namespace
+        state: present
+      
+    - name: Create Docker registry secret
+      kubernetes.core.k8s:
+        name: acr-secret
+        namespace: "{{ namespace }}"
+        api_version: v1
+        kind: Secret
+        type: kubernetes.io/dockerconfigjson
+        state: present
+        data:
+          .dockerconfigjson: "{{ lookup('env', 'DOCKER_CONFIG_JSON') }}"
+      when: docker_config_json is defined and docker_config_json | length > 0
+      
+    - name: Deploy application deployment
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: "{{ app_name }}"
+            namespace: "{{ namespace }}"
+            labels:
+              app: "{{ app_name }}"
+          spec:
+            replicas: "{{ replicas }}"
+            selector:
+              matchLabels:
+                app: "{{ app_name }}"
+            template:
+              metadata:
+                labels:
+                  app: "{{ app_name }}"
+              spec:
+                containers:
+                - name: "{{ app_name }}"
+                  image: "{{ image_name }}"
+                  ports:
+                  - containerPort: 5000
+                    name: http
+                  env:
+                  - name: PORT
+                    value: "5000"
+                  - name: FLASK_ENV
+                    value: "production"
+                  resources:
+                    requests:
+                      memory: "512Mi"
+                      cpu: "250m"
+                    limits:
+                      memory: "1Gi"
+                      cpu: "500m"
+                  livenessProbe:
+                    httpGet:
+                      path: /api/health
+                      port: 5000
+                    initialDelaySeconds: 30
+                    periodSeconds: 10
+                  readinessProbe:
+                    httpGet:
+                      path: /api/health
+                      port: 5000
+                    initialDelaySeconds: 10
+                    periodSeconds: 5
+                imagePullSecrets:
+                - name: acr-secret
+                  
+    - name: Deploy service
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: "{{ app_name }}-service"
+            namespace: "{{ namespace }}"
+            labels:
+              app: "{{ app_name }}"
+          spec:
+            type: LoadBalancer
+            ports:
+            - port: 80
+              targetPort: 5000
+              protocol: TCP
+              name: http
+            selector:
+              app: "{{ app_name }}"
+              
+    - name: Wait for deployment to be ready
+      kubernetes.core.k8s_info:
+        api_version: apps/v1
+        kind: Deployment
+        name: "{{ app_name }}"
+        namespace: "{{ namespace }}"
+      register: deployment_status
+      until: deployment_status.resources[0].status.readyReplicas == replicas | int
+      retries: 30
+      delay: 10
+      
+    - name: Display deployment status
+      debug:
+        msg: "Deployment {{ app_name }} is ready with {{ deployment_status.resources[0].status.readyReplicas }} replicas"
+        
+    - name: Get service endpoint
+      kubernetes.core.k8s_info:
+        api_version: v1
+        kind: Service
+        name: "{{ app_name }}-service"
+        namespace: "{{ namespace }}"
+      register: service_info
+      
+    - name: Display service information
+      debug:
+        msg: "Service available at: {{ service_info.resources[0].status.loadBalancer.ingress[0].ip if service_info.resources[0].status.loadBalancer.ingress is defined else 'Pending IP allocation' }}"
+
