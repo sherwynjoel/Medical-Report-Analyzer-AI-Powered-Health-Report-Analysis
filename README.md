@@ -396,11 +396,6 @@ This project is for educational purposes.
 - Azure for cloud infrastructure
 - Open source community
 
-## 📧 Contact
 
-For questions or issues, please open a GitHub issue.
 
----
-
-**Built with ❤️ using AI and DevOps**
 
