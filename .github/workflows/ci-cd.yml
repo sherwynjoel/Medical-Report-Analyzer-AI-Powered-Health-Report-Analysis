@@ -32,8 +32,9 @@ jobs:
           dockerfile: Dockerfile.simple
           push: false
           tags: ${{ env.IMAGE_NAME }}:test-${{ github.sha }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Smoke test image
         run: docker run --rm ${{ env.IMAGE_NAME }}:test-${{ github.sha }} python -c "import flask; print('Flask import OK')"
