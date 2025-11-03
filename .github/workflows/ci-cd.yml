@@ -26,15 +26,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          dockerfile: Dockerfile.simple
-          push: false
-          tags: ${{ env.IMAGE_NAME }}:test-${{ github.sha }}
-          load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+        run: docker build -t ${{ env.IMAGE_NAME }}:test-${{ github.sha }} -f Dockerfile.simple .
 
       - name: Smoke test image
         run: docker run --rm ${{ env.IMAGE_NAME }}:test-${{ github.sha }} python -c "import flask; print('Flask import OK')"
