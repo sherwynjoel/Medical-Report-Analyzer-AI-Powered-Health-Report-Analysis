@@ -1,3 +1,14 @@
+# Secrets and credentials (safety)
+*.pem
+*.key
+**/secrets/*.txt
+**/secrets/*.json
+**/secrets/*.env
+
+# Only ignore actual secret files, not examples
+!**/*.example
+!**/*.sample
+
 # Python
 __pycache__/
 *.py[cod]
@@ -19,9 +30,13 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+*.log
+
+# Virtual environments
 venv/
-ENV/
+.venv/
 env/
+ENV/
 
 # Flask
 instance/
@@ -33,7 +48,6 @@ uploads/*
 
 # Environment variables
 .env
-.venv
 .env.local
 
 # IDE
@@ -60,15 +74,8 @@ terraform.tfvars
 # Kubernetes
 *.kubeconfig
 
-# Secrets
-secrets/
-*.pem
-*.key
-
 # Ansible
 *.retry
 
 # Logs
-*.log
 logs/
-

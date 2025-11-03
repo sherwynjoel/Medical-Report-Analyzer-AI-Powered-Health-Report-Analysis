@@ -1,0 +1,84 @@
+DOCKER COMMANDS FOR MEDICAL REPORT ANALYZER
+=============================================
+
+WORKING DIRECTORY:
+cd "C:\Users\Sherwyn joel\OneDrive\Desktop\Medical Report Analyzer"
+
+
+1. BUILD AND START (First Time):
+---------------------------------
+docker-compose up --build -d
+
+
+2. START (If Already Built):
+-----------------------------
+docker-compose up -d
+
+
+3. VIEW LOGS:
+-------------
+docker-compose logs
+
+
+4. FOLLOW LOGS (Live):
+----------------------
+docker-compose logs -f
+
+
+5. STOP CONTAINER:
+------------------
+docker-compose down
+
+
+6. RESTART CONTAINER:
+--------------------
+docker-compose restart
+
+
+7. REBUILD AND RESTART:
+-----------------------
+docker-compose up --build -d
+
+
+8. CHECK STATUS:
+---------------
+docker ps
+
+
+9. VIEW CONTAINER DETAILS:
+--------------------------
+docker inspect medical-report-analyzer
+
+
+10. EXECUTE COMMAND INSIDE CONTAINER:
+------------------------------------
+docker exec -it medical-report-analyzer /bin/bash
+
+
+11. VIEW RESOURCE USAGE:
+------------------------
+docker stats medical-report-analyzer
+
+
+12. REMOVE EVERYTHING:
+----------------------
+docker-compose down -v
+
+
+13. TEST HEALTH ENDPOINT:
+------------------------
+curl http://localhost:5000/api/health
+
+Or in PowerShell:
+Invoke-WebRequest -Uri http://localhost:5000/api/health
+
+
+14. VIEW LAST 50 LINES OF LOGS:
+--------------------------------
+docker-compose logs --tail 50
+
+
+15. STOP AND REMOVE IMAGE TOO:
+-------------------------------
+docker-compose down --rmi all
+

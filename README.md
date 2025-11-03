@@ -375,9 +375,10 @@ Edit `terraform/terraform.tfvars` to customize:
 
 ## 📚 Documentation
 
-- [SETUP.md](SETUP.md) - Detailed setup instructions
-- [DEPLOYMENT.md](DEPLOYMENT.md) - Deployment guide
-- [ARCHITECTURE.md](ARCHITECTURE.md) - Architecture documentation
+- [CI-CD-INTEGRATION.md](CI-CD-INTEGRATION.md) - How the workflow is wired across tools
+- [CI-CD-FIX.md](CI-CD-FIX.md) - Details on the pipeline fixes and troubleshooting
+- [TOOLS-VERIFICATION.md](TOOLS-VERIFICATION.md) - Checklist of implemented stack requirements
+- [DOCKER-COMMANDS.txt](DOCKER-COMMANDS.txt) - Handy Docker build and run commands
 
 ## 🤝 Contributing
 
@@ -395,7 +396,3 @@ This project is for educational purposes.
 - Hugging Face for AI models
 - Azure for cloud infrastructure
 - Open source community
-
-
-
-

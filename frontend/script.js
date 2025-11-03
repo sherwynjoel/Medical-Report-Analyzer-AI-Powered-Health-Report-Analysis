@@ -31,11 +31,12 @@ uploadBox.addEventListener('drop', function(e) {
     uploadBox.style.background = '#f3f4f6';
     
     const file = e.dataTransfer.files[0];
-    if (file && (file.type === 'application/pdf' || file.type === 'text/plain')) {
+    const allowedTypes = ['application/pdf', 'text/plain', 'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/bmp', 'image/webp'];
+    if (file && allowedTypes.includes(file.type)) {
         document.getElementById('fileName').textContent = `Selected: ${file.name}`;
         uploadAndAnalyze(file);
     } else {
-        showError('Please upload a PDF or TXT file');
+        showError('Please upload a PDF, TXT file, or Image (JPG, PNG, etc.)');
     }
 });
 
